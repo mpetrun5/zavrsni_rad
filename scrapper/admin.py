@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from scrapper.models import Selector
+
+
+@admin.register(Selector)
+class ScrapperAdmin(admin.ModelAdmin):
+    pass
