@@ -1,8 +1,20 @@
 import requests
 from bs4 import BeautifulSoup
 
+import urllib.request
+
+
+def get_picture(image_name, url):
+    opener = urllib.request.URLopener()
+    opener.addheader('User-Agent', 'Chrome')
+    filename, headers = opener.retrieve(url, image_name)
+    return filename
+
 
 def get_num_of_nights(url, destination_selector, num_of_nights_selector):
+    """
+    Get number of night number from destinations card.
+    """
     response_html = requests.get(url).text
     soup = BeautifulSoup(response_html, 'html.parser')
 
@@ -10,9 +22,25 @@ def get_num_of_nights(url, destination_selector, num_of_nights_selector):
     for destination in soup.select(destination_selector):
         url = destination.get('href')
         night = destination.select(num_of_nights_selector)[0]
-        num_of_nights[url] = night.get_text()[0]
+        num_of_nights[url] = night.get_text().split(' ')[0]
 
     return num_of_nights
+
+
+def get_destination_picture(url, destination_selector):
+    """
+    Get picture of destination.
+    """
+    response_html = requests.get(url).text
+    soup = BeautifulSoup(response_html, 'html.parser')
+
+    pictures = {}
+    for destination in soup.select(destination_selector):
+        url = destination.get('href')
+        image = destination.select('img')[0]
+        pictures[url] = image.get('src')
+
+    return pictures
 
 
 def get_agency_destination_urls(url, destination_selector):

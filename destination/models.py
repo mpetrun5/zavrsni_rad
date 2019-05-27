@@ -13,7 +13,7 @@ class Destination(models.Model):
     description = models.TextField()
     price = models.TextField()
     num_of_nights = models.PositiveIntegerField()
-    start_date = models.DateField(null=True)
+    image = models.ImageField(upload_to='images/', blank=True)
 
     def __str__(self):
         return self.name
