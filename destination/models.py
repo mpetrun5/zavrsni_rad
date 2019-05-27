@@ -1,19 +1,22 @@
 from django.db import models
 
+from agency.models import Agency
+
 
 class Destination(models.Model):
     """
     Defines a destination with all its information.
     """
     name = models.CharField(max_length=50)
+    agency = models.ForeignKey(Agency, on_delete=models.DO_NOTHING)
     original_url = models.CharField(max_length=100)
     description = models.TextField()
-    price = models.FloatField()
-    price_indcludes = models.TextField()
-    price_excludes = models.TextField()
+    price = models.TextField()
     num_of_nights = models.PositiveIntegerField()
-    is_active = models.BooleanField()
-    start_date = models.DateField()
+    start_date = models.DateField(null=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Country(models.Model):

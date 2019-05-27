@@ -13,9 +13,6 @@ class Selector(models.Model):
 
     title = models.CharField(max_length=100)
     price = models.CharField(max_length=100)
+    num_of_nights = models.CharField(max_length=100)
     travel_plan = models.CharField(max_length=100, blank=True)
-    price_includes = models.CharField(max_length=100, blank=True)
-    price_excludes = models.CharField(max_length=100, blank=True)
-    description = models.CharField(max_length=100, blank=True)
-    location = models.CharField(max_length=100, blank=True)
     image_gallery = models.CharField(max_length=100, blank=True)
