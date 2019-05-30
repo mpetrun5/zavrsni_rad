@@ -100,7 +100,7 @@ def get_destination_data(url, selector):
     data = {}
 
     data['title'] = _get_first_value(soup, selector.title)
-    data['price'] = _get_first_value(soup, selector.price)
+    data['price'] = _get_first_value(soup, selector.price).split(' ')[0].replace(',', '').replace('.', '')
     data['description'] = _get_first_value(soup, selector.travel_plan)
 
     for key, value in data.items():
