@@ -1,3 +1,5 @@
+import re
+
 import requests
 from bs4 import BeautifulSoup
 
@@ -11,39 +13,83 @@ def get_picture(image_name, url):
     return filename
 
 
-def get_num_of_nights(url, destination_selector, num_of_nights_selector):
-    """
-    Get number of night number from destinations card.
-    """
-    response_html = requests.get(url).text
-    soup = BeautifulSoup(response_html, 'html.parser')
-
-    num_of_nights = {}
-    for destination in soup.select(destination_selector):
-        url = destination.get('href')
-        night = destination.select(num_of_nights_selector)[0]
-        num_of_nights[url] = night.get_text().split(' ')[0]
-
-    return num_of_nights
-
-
-def get_destination_picture(url, destination_selector):
+def get_destination_picture(scrapper):
     """
     Get picture of destination.
     """
-    response_html = requests.get(url).text
+    response_html = requests.get(scrapper.offers_url).text
     soup = BeautifulSoup(response_html, 'html.parser')
 
     pictures = {}
-    for destination in soup.select(destination_selector):
-        url = destination.get('href')
+    for destination in soup.select(scrapper.destination):
+        try:
+            url = destination.select(scrapper.destination_url)[0].get('href')
+        except IndexError:
+            url = destination.get('href')
         image = destination.select('img')[0]
         pictures[url] = image.get('src')
 
     return pictures
 
 
-def get_agency_destination_urls(url, destination_selector):
+def get_num_of_nights(scrapper):
+    """
+    Get number of night number from destinations card.
+    """
+    response_html = requests.get(scrapper.offers_url).text
+    soup = BeautifulSoup(response_html, 'html.parser')
+
+    num_of_nights = {}
+    for destination in soup.select(scrapper.destination):
+        try:
+            url = destination.select(scrapper.destination_url)[0].get('href')
+        except IndexError:
+            url = destination.get('href')
+        try:
+            night = destination.select(scrapper.num_of_nights)[0]
+            number = re.findall('\d+', night.get_text())[0]
+        except IndexError:
+            number = 0
+        num_of_nights[url] = number
+
+    return num_of_nights
+
+
+def get_price(scrapper):
+    response_html = requests.get(scrapper.offers_url).text
+    soup = BeautifulSoup(response_html, 'html.parser')
+
+    prices = {}
+    for destination in soup.select(scrapper.destination):
+        try:
+            url = destination.select(scrapper.destination_url)[0].get('href')
+        except IndexError:
+            # Fix for when destination is already a element
+            url = destination.get('href')
+        price = destination.select(scrapper.price)
+        prices[url] = _get_price(price[0].get_text())
+
+    return prices
+
+
+def get_title(scrapper):
+    response_html = requests.get(scrapper.offers_url).text
+    soup = BeautifulSoup(response_html, 'html.parser')
+
+    titles = {}
+    for destination in soup.select(scrapper.destination):
+        try:
+            url = destination.select(scrapper.destination_url)[0].get('href')
+        except IndexError:
+            # Fix for when destination is already a element
+            url = destination.get('href')
+        title = destination.select(scrapper.title)
+        titles[url] = _clean_data(title[0].get_text())
+
+    return titles
+
+
+def get_agency_destination_urls(scrapper):
     """
     Get all destinations from given url.
 
@@ -54,15 +100,28 @@ def get_agency_destination_urls(url, destination_selector):
     Returns
         list: list of destination urls
     """
-    response_html = requests.get(url).text
+    response_html = requests.get(scrapper.offers_url).text
     soup = BeautifulSoup(response_html, 'html.parser')
 
     destination_urls = []
-    for destination in soup.select(destination_selector):
-        url = destination.get('href')
+    for destination in soup.select(scrapper.destination):
+        try:
+            url = destination.select(scrapper.destination_url)[0].get('href')
+        except IndexError:
+            url = destination.get('href')
         destination_urls.append(url)
 
     return destination_urls
+
+
+def _get_price(string):
+    if string is not None:
+        try:
+            return re.findall('\d+.?,?\d+', string)[0].replace('.', ' ').replace(',', '').replace(' ', '')
+        except IndexError:
+            return 0.00
+    else:
+        return 0.00
 
 
 def _get_first_value(soup, selector):
@@ -93,17 +152,11 @@ def get_destination_data(url, selector):
         selector(obj)
 
     Returns:
-        dict: destination data
+        destination data
     """
     response_html = requests.get(url).text
     soup = BeautifulSoup(response_html, 'html.parser')
-    data = {}
-
-    data['title'] = _get_first_value(soup, selector.title)
-    data['price'] = _get_first_value(soup, selector.price).split(' ')[0].replace(',', '').replace('.', '')
-    data['description'] = _get_first_value(soup, selector.travel_plan)
-
-    for key, value in data.items():
-        data[key] = _clean_data(value)
-
+    data = _clean_data(_get_first_value(soup, selector.travel_plan))
+    if data is None:
+        data = 'Forbidden access!'
     return data

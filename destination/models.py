@@ -13,6 +13,7 @@ class Destination(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     num_of_nights = models.PositiveIntegerField()
+    selector_url = models.CharField(max_length=50)
     image = models.ImageField(upload_to='images/', blank=True)
 
     def __str__(self):

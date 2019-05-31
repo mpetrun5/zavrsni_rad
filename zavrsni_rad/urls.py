@@ -22,5 +22,5 @@ from search.views import SearchView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('search/', SearchView.as_view, name='search')
+    path('search/', SearchView.as_view(), name='search')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
