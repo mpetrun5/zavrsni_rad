@@ -5,4 +5,4 @@ from destination.models import Destination
 
 @admin.register(Destination)
 class DestinationAdmin(admin.ModelAdmin):
-    pass
+    list_filter = ('agency', )
