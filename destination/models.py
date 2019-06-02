@@ -24,25 +24,3 @@ class Destination(models.Model):
         Represent agency field as string for use with elasticsearch index.
         """
         return self.agency.name
-
-
-class Country(models.Model):
-    name = models.CharField(max_length=100)
-
-
-class Location(models.Model):
-    latitude = models.FloatField()
-    longitude = models.FloatField()
-    name = models.CharField(max_length=50)
-    description = models.TextField()
-    country = models.ForeignKey(Country, on_delete=models.DO_NOTHING)
-
-
-class DailyOffer(models.Model):
-    """
-    Defines a description of a daily offer from destination.
-    """
-    destination = models.ForeignKey(Destination, on_delete=models.DO_NOTHING)
-    date = models.DateField()
-    description = models.TextField()
-    location = models.ForeignKey(Location, on_delete=models.DO_NOTHING)
