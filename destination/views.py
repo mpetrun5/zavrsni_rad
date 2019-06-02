@@ -1,3 +1,7 @@
-from django.shortcuts import render
+from django.views.generic import DetailView
+from destination.models import Destination
 
-# Create your views here.
+
+class DestinationDetailView(DetailView):
+    queryset = Destination.objects.all()
+    template_name = 'destination.html'

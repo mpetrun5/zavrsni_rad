@@ -18,9 +18,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from search.views import SearchView
+from destination.views import DestinationDetailView
+from search.views import HomeView, SearchView
 
 urlpatterns = [
+    path('', HomeView.as_view(), name='home'),
+    path('destinations/<int:pk>/', DestinationDetailView.as_view(), name='destination-detail'),
+    path('search/', SearchView.as_view(), name='search'),
     path('admin/', admin.site.urls),
-    path('search/', SearchView.as_view(), name='search')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
