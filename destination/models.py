@@ -24,3 +24,9 @@ class Destination(models.Model):
         Represent agency field as string for use with elasticsearch index.
         """
         return self.agency.name
+
+    def original_url_to_string(self):
+        """
+        Represent original destination url as string for use with elasticsearch index.
+        """
+        return ''.join([self.agency.url, self.original_url])

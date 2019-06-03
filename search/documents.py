@@ -14,6 +14,7 @@ destination.settings(
 class DestinationDocument(DocType):
     price = fields.FloatField(attr=None)
     agency = fields.TextField(attr='agency_to_string')
+    original_link = fields.TextField(attr='original_url_to_string')
 
     class Meta:
         model = Destination
