@@ -1,6 +1,6 @@
 .centered {
   position: relative; /* or absolute */
-  top: 35%;
+  top: 15%;
 }
 
 .form-control-borderless {
@@ -11,4 +11,27 @@
     border: none;
     outline: none;
     box-shadow: none;
+}
+
+.container{
+    padding:5%;
+}
+.container .img{
+    text-align:center;
+}
+.container .details{
+    border-left:3px solid #ded4da;
+}
+.container .details p{
+    font-size:15px;
+    font-weight:bold;
+}
+
+.container-fluid {
+  color: black;
+  text-decoration-color: black;
+}
+
+#ex1Slider .slider-selection {
+	background: #BABABA;
 }

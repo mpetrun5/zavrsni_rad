@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container-fluid">
-    <div class="row justify-content-center">
+<div class="container-fluid" style="margin-top: 15px;">
+    <div class="row">
+        <a href="/"><img src="../static/images/logo.jpeg" height="50"></a>
         <div class="col-12 col-md-10 col-lg-8">
             <form class="card card-sm" action="/search" method="get" >
                 {% csrf_token %}
@@ -19,6 +20,7 @@
                             type="search"
                             placeholder="Search topics or keywords"
                             id="{{ search_form.q.id }}"
+                            value="{{ search_form.q.value }}"
                         >
                     </div>
                     <!--end of col-->
@@ -33,8 +35,57 @@
     </div>
 </div>
 
-{% for destination in destinations %}
-    {{  destination.name  }}
-{% endfor %}
+<div class="container-fluid">
+    <div class="row">
+        {% for destination in destinations %}
+            <div class="col-3">
+                <a href="/destinations/{{ destination.id }}" style="color: black;">
+                    <div style="margin-top: 15px">
+                        <div class="col-md-10 img">
+                            <img src="{{ destination.image }}"  width="350" heigth="200" alt="" class="img-rounded">
+                            </div>
+                            <div class="col-md-12 details">
+                            <blockquote style="margin-top: 10px;">
+                                <h5>{{ destination.name }}</h5>
+                            </blockquote>
+                            <p>
+                                Cijena: {{ destination.price|floatformat:"-3" }} HRK <br>
+                            {{ destination.num_of_nights }} dana<br>
+                                Agencija: {{ destination.agency }}
+                            </p>
+                            <a href="{{ destination.original_link }}"><button class="btn button">Pogledaj ponudu</button></a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="float-right" style="margin-top: 10px; margin-right: 20px;">
+        {% if destinations.has_other_pages %}
+        <ul class="pagination">
+            {% if destinations.has_previous %}
+            <li class="page-item"><a class="page-link" href="?q={{ search_form.q.value }}&page={{ destinations.previous_page_number }}&price={{ price_min}}%2C{{ price_max }}&num_of_nights={{num_of_nights_min}}%2C{{num_of_nights_max}}">Previous</a></li>
+            {% else %}
+            <li class="disabled page-item"><a class="page-link" href="#">Previous</a></li>
+            {% endif %}
+            {% for i in destinations.paginator.page_range %}
+            {% if destinations.number == i %}
+                <li class="active page-item"><a class="page-link" href="#">{{ i }}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?q={{ search_form.q.value }}&page={{ i }}&price={{ price_min}}%2C{{ price_max }}&num_of_nights={{num_of_nights_min}}%2C{{num_of_nights_max}}">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+            {% if destinations.has_next %}
+            <li class="page-item"><a class="page-link" href="?q={{ search_form.q.value }}&page={{ destinations.next_page_number }}&price={{ price_min}}%2C{{ price_max }}&num_of_nights={{num_of_nights_min}}%2C{{num_of_nights_max}}">Next</a></li>
+            {% else %}
+            <li class="disabled page-item"><a class="page-link" href="#">Next</a></li>
+            {% endif %}
+        </ul>
+        {% endif %}
+    </div>
+</div>
 
 {% endblock content %}

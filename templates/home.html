@@ -1,8 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="centered container">
+
+<div class="centered container-fluid">
+
     <div class="row justify-content-center">
+        <a href="/"><img src="../static/images/logo.jpeg" height="200"></a>
+    </div>
+
+    <div class="row justify-content-center" style="margin-top: 15px;">
         <div class="col-12 col-md-10 col-lg-8">
             <form class="card card-sm" action="/search" method="get" >
                 {% csrf_token %}
@@ -17,7 +23,7 @@
                             required
                             class="form-control form-control-lg form-control-borderless"
                             type="search"
-                            placeholder="Search topics or keywords"
+                            placeholder="Where do you want to go?"
                             id="{{ search_form.q.id }}"
                         >
                     </div>
@@ -27,9 +33,20 @@
                     </div>
                     <!--end of col-->
                 </div>
-            </form>
         </div>
         <!--end of col-->
     </div>
+
+        <div class="row justify-content-center">
+            <div class="float-left">
+                Price: <b>0 HRK &nbsp;</b> <input id="ex1" name="price" type="text" class="span2" value="" data-slider-min="0" data-slider-max="60000" data-slider-step="100" data-slider-value="[0,60000]"/> <b> &nbsp; 60000 HRK</b>
+            </div>
+            <div class="float-right" style="margin-left: 50px;">
+                Number of days: <b>0 &nbsp;</b> <input id="ex2" name="num_of_nights" type="text" class="span2" value="" data-slider-min="0" data-slider-max="21" data-slider-step="1" data-slider-value="[0,21]"/> <b> &nbsp; &nbsp;21</b>
+            </div>
+        </div>
+    </form>
+
 </div>
+
 {% endblock content %}
