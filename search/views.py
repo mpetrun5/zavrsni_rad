@@ -49,6 +49,8 @@ class SearchView(TemplateView):
                     query
                 )[0:1000]
             )
+
+            # Understand this a bad idea, but kinda in a hurry
             if price:
                 destinations = [
                     destination for destination in destinations
@@ -72,5 +74,9 @@ class SearchView(TemplateView):
 
         context['search_form'] = SearchForm(data=form_data)
         context['destinations'] = destinations
+        context['price_min'] = price_min
+        context['price_max'] = price_max
+        context['num_of_nights_min'] = num_of_nights_min
+        context['num_of_nights_max'] = num_of_nights_max
 
         return context
