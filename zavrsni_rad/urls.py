@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 from destination.views import DestinationDetailView
 from search.views import HomeView, SearchView
@@ -25,5 +25,6 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('destinations/<int:pk>/', DestinationDetailView.as_view(), name='destination-detail'),
     path('search/', SearchView.as_view(), name='search'),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
