@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 from agency.models import Agency
 
@@ -30,3 +31,13 @@ class Destination(models.Model):
         Represent original destination url as string for use with elasticsearch index.
         """
         return ''.join([self.agency.url, self.original_url])
+
+
+class Review(models.Model):
+    """
+    Defines review of destination.
+    """
+    content = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    destination = models.ForeignKey(Destination, on_delete=models.DO_NOTHING)
+    rating = models.IntegerField()
