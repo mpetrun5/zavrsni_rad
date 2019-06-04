@@ -6,3 +6,4 @@ bs4
 pillow==6.0.0
 elasticsearch-dsl>=6.0.0
 django-elasticsearch-dsl==0.5.1
+django-allauth==0.39.1

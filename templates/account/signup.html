@@ -1,0 +1,58 @@
+{% load static %}
+<html>
+
+    <head>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/css/bootstrap-slider.css">
+        <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    </head>
+
+    <body>
+
+        <div id="login">
+            <div class="container">
+                <div id="login-row" class="row justify-content-center align-items-center">
+                    <div id="login-column" class="col-md-6">
+                        <div id="login-box" class="col-md-12">
+                            <form id="login-form" class="form" action="/accounts/signup/" method="post">
+                                {% csrf_token %}
+                                <h3 class="text-center text-info">Registration</h3>
+                                <div class="form-group">
+                                    <label for="email" class="text-info">Email:</label><br>
+                                    <input type="text" name="email" id="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="username" class="text-info">Username:</label><br>
+                                    <input type="text" name="username" id="username" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password1" class="text-info">Password:</label><br>
+                                    <input type="password" name="password1" id="password1" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="password2" class="text-info">Retype Password:</label><br>
+                                    <input type="password" name="password2" id="password2" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" name="submit" class="btn btn-info btn-md" value="submit">
+                                </div>
+                                <div id="register-link" class="text-right">
+                                    <a href="/accounts/login/" class="text-info">Login here</a>
+                                </div>
+                                <div style="margin-top: 40px;">
+                                    {% for key, value in form.errors.items %}
+                                        <div class="alert alert-danger">{% if key != '__all__' %}{{ key }} {% endif %}{{ value }}</div>
+                                    {% endfor %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

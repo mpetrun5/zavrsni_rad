@@ -25,6 +25,6 @@ urlpatterns = [
     path('', HomeView.as_view(), name='home'),
     path('destinations/<int:pk>/', DestinationDetailView.as_view(), name='destination-detail'),
     path('search/', SearchView.as_view(), name='search'),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/', include('allauth.urls')),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
