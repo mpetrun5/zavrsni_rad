@@ -94,8 +94,7 @@ def get_agency_destination_urls(scrapper):
     Get all destinations from given url.
 
     Args:
-        url(string)
-        destination_selector(string): css selector of destination div
+        scrapper(obj)
 
     Returns
         list: list of destination urls
