@@ -40,4 +40,4 @@ class Review(models.Model):
     content = models.TextField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     destination = models.ForeignKey(Destination, on_delete=models.DO_NOTHING)
-    rating = models.IntegerField()
+    rating = models.PositiveIntegerField()
