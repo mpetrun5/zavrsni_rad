@@ -35,3 +35,11 @@
 #ex1Slider .slider-selection {
 	background: #BABABA;
 }
+
+.review-block{
+	background-color:#FAFAFA;
+	border:1px solid #EFEFEF;
+	padding:15px;
+    border-radius:3px;
+    margin-top: 0px;
+}
