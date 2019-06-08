@@ -1,6 +1,7 @@
-from django.db import models
-from django.utils import timezone
 from django.contrib.auth.models import User
+from django.db import models
+from django.db.models.aggregates import Sum
+from django.utils import timezone
 
 from agency.models import Agency
 
@@ -48,3 +49,24 @@ class Review(models.Model):
 
     def __str__(self):
         return self.destination.name
+
+    @staticmethod
+    def calculate_average_rating(destination):
+        """
+        Calculate average rating for given destination.
+
+        Args:
+            destination
+
+        Returns
+            average_rating(float)
+            num_of_reviews(integer)
+        """
+        reviews = Review.objects.filter(destination=destination)
+        num_of_reviews = reviews.count()
+        rating_sum = reviews.aggregate(Sum('rating'))['rating__sum']
+
+        if num_of_reviews:
+            return rating_sum/num_of_reviews, num_of_reviews
+        else:
+            return 0, 0

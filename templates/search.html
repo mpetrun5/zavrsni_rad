@@ -51,10 +51,22 @@
                             <blockquote style="margin-top: 10px;">
                                 <h5>{{ destination.name }}</h5>
                             </blockquote>
-                            <p>
-                                Cijena: {{ destination.price|floatformat:"-3" }} HRK <br>
+                            Price: {{ destination.price|floatformat:"-3" }} HRK <br>
                             {{ destination.num_of_nights }} dana<br>
-                                Agencija: {{ destination.agency }}
+                            Agency: {{ destination.agency }} <br>
+                            Reviews ({{ destination.num_of_reviews }})
+							<div class="review-block-rate" style="margin-top: 0px;">
+                                {% for star in destination.yellow_stars %}
+                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                {% endfor %}
+                                {% for start in destination.gray_stars %}
+                                    <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                    </button>
+                                {% endfor %}
+							</div>
                             </p>
                             <a href="{{ destination.original_link }}"><button class="btn button">Pogledaj ponudu</button></a>
                         </div>
