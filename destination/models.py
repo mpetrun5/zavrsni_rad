@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 from agency.models import Agency
@@ -41,6 +42,7 @@ class Review(models.Model):
 
     content = models.TextField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    date_posted = models.DateTimeField(default=timezone.now)
     destination = models.ForeignKey(Destination, on_delete=models.DO_NOTHING)
     rating = models.PositiveIntegerField(choices=SCORE_CHOICES)
 
