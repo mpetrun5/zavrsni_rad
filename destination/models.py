@@ -37,7 +37,7 @@ class Review(models.Model):
     """
     Defines review of destination.
     """
-    SCORE_CHOICES = zip(range(1, 5), range(1, 5) )
+    SCORE_CHOICES = zip(range(1, 5), range(1, 5))
 
     content = models.TextField()
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
