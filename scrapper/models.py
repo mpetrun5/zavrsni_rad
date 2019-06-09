@@ -16,7 +16,6 @@ class Selector(models.Model):
     price = models.CharField(max_length=100)
     num_of_nights = models.CharField(max_length=100)
     travel_plan = models.CharField(max_length=100)
-    image_gallery = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.offers_url
